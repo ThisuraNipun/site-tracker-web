@@ -112,7 +112,7 @@ export function LoginForm()
                     <FormLabel>Password</FormLabel>
                     <Link
                       href="/forgot-password"
-                      className="text-sm font-medium text-blue-600 hover:underline"
+                      className="text-sm font-medium text-primary hover:underline hover:text-primary-hover"
                     >
                       Forgot Password?
                     </Link>
