@@ -2,6 +2,7 @@
 
 import { ActionResponse } from "@/types";
 import { forgotPasswordSchema, ForgotPasswordValues } from "../schemas/auth.schema";
+import { env } from "@/env";
 
 export async function forgotPasswordAction(values: ForgotPasswordValues): Promise<ActionResponse> {
   try {
@@ -12,7 +13,7 @@ export async function forgotPasswordAction(values: ForgotPasswordValues): Promis
     }
 
     const { email } = validatedFields.data;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const apiUrl = env.NEXT_PUBLIC_API_URL;
 
     const response = await fetch(`${apiUrl}/api/auth/forgot-password`, {
       method: "POST",

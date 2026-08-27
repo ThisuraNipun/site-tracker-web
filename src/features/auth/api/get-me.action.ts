@@ -15,8 +15,6 @@ export async function getMeAction(): Promise<User | null> {
 
     const data = await response.json();
     
-    console.log("Raw Backend Response (/api/auth/me):", JSON.stringify(data, null, 2));
-    
     // Based on the backend response, the user object is directly in `data.data`
     if (data?.data && typeof data.data === 'object' && 'id' in data.data) {
       return data.data as User;

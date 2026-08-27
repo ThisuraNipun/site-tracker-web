@@ -2,6 +2,7 @@
 
 import { ActionResponse } from "@/types";
 import { resetPasswordSchema, ResetPasswordValues } from "../schemas/auth.schema";
+import { env } from "@/env";
 
 export async function resetPasswordAction(token: string, values: ResetPasswordValues): Promise<ActionResponse> {
   try {
@@ -12,7 +13,7 @@ export async function resetPasswordAction(token: string, values: ResetPasswordVa
     }
 
     const { newPassword } = validatedFields.data;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const apiUrl = env.NEXT_PUBLIC_API_URL;
 
     const response = await fetch(`${apiUrl}/api/auth/reset-password`, {
       method: "POST",

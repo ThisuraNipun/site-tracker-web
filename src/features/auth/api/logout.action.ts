@@ -2,11 +2,12 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { env } from "@/env";
 
 export async function logoutAction() {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refreshToken")?.value;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  const apiUrl = env.NEXT_PUBLIC_API_URL;
 
   // Notify backend to invalidate refresh token if it exists
   if (refreshToken) {

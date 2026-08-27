@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { env } from "@/env";
 
 interface FetchOptions extends RequestInit
 {
@@ -23,7 +24,7 @@ export async function fetchWithAuth(
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  const apiUrl = env.NEXT_PUBLIC_API_URL;
   // Support both absolute URLs and relative endpoints
   const url = endpoint.startsWith("http") ? endpoint : `${apiUrl}${endpoint}`;
 

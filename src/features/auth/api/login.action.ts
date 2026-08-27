@@ -1,8 +1,10 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { ActionResponse } from "@/types";
+import { redirect } from "next/navigation";
 import { loginSchema, LoginValues } from "../schemas/auth.schema";
+import { ActionResponse } from "@/types";
+import { env } from "@/env";
 
 export async function loginAction(values: LoginValues): Promise<ActionResponse> {
   try {
@@ -13,7 +15,7 @@ export async function loginAction(values: LoginValues): Promise<ActionResponse> 
     }
 
     const { email, password } = validatedFields.data;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const apiUrl = env.NEXT_PUBLIC_API_URL;
 
     const response = await fetch(`${apiUrl}/api/auth/login`, {
       method: "POST",
