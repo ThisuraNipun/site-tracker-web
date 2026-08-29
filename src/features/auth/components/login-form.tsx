@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, Mail, MountainSnow, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -34,8 +34,19 @@ import { loginAction } from "../api/login.action";
 export function LoginForm()
 {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Show a one-time warning toast when the user was auto-logged out due to session expiry
+  useEffect(() => {
+    if (searchParams.get("reason") === "session_expired") {
+      toast.warning("Your session has expired. Please log in again.", {
+        id: "session-expired", // Prevents duplicate toasts (e.g. React Strict Mode)
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run only once on mount
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),

@@ -14,7 +14,7 @@ export function proxy(request: NextRequest)
 
     if (isProtectedRoutes && !token)
     {
-        return NextResponse.redirect(new URL("/login", request.url))
+        return NextResponse.redirect(new URL("/login?reason=session_expired", request.url))
     }
 
     if (isAuthRoutes && token)
