@@ -1,7 +1,8 @@
 "use client";
 
 import { useAuthStore } from "@/store/auth.store";
-import {
+import
+{
   LayoutDashboard,
   CalendarCheck,
   FolderKanban,
@@ -16,7 +17,8 @@ const stats = [
   { label: "Total Users", value: "—", icon: Users, color: "bg-purple-50 text-purple-600" },
 ];
 
-export default function DashboardPage() {
+export default function DashboardPage()
+{
   const user = useAuthStore((state) => state.user);
 
   return (
@@ -40,7 +42,8 @@ export default function DashboardPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map((stat) => {
+        {stats.map((stat) =>
+        {
           const Icon = stat.icon;
           return (
             <div

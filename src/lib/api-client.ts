@@ -123,7 +123,7 @@ export async function fetchWithAuth(
 
     if (requireAuth)
     {
-      redirect("/login");
+      redirect("/login?reason=session_expired");
     }
   }
 

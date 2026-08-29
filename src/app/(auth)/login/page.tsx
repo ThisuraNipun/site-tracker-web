@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { LoginForm } from "@/features/auth/components/login-form";
 
 export const metadata = {
@@ -9,7 +10,9 @@ export default function LoginPage()
 {
   return (
     <div className="flex w-full items-center justify-center">
-      <LoginForm />
+      <Suspense fallback={null}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }

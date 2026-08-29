@@ -44,6 +44,7 @@ function NavLink({
   const linkEl = (
     <Link
       href={item.href}
+      aria-current={active ? "page" : undefined}
       className={cn(
         "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-150",
         active
@@ -57,10 +58,11 @@ function NavLink({
           "h-4 w-4 shrink-0",
           active ? "text-primary" : "text-muted-foreground"
         )}
+        aria-hidden="true"
       />
       {!collapsed && <span className="truncate">{item.label}</span>}
       {!collapsed && active && (
-        <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
+        <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
       )}
     </Link>
   );
@@ -107,6 +109,8 @@ export function Sidebar() {
           onClick={toggleSidebar}
           className="absolute -right-3 top-6 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-white text-muted-foreground shadow-sm hover:bg-muted hover:text-foreground transition-colors"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-expanded={!collapsed}
+          aria-controls="sidebar-nav"
         >
           {collapsed ? (
             <ChevronRight className="h-3.5 w-3.5" />
@@ -138,7 +142,7 @@ export function Sidebar() {
         </div>
 
         {/* Main Navigation */}
-        <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-0.5">
+        <nav id="sidebar-nav" aria-label="Main navigation" className="flex-1 overflow-y-auto py-4 px-2 space-y-0.5">
           {visibleNavItems.map((item) => (
             <NavLink
               key={item.href}
