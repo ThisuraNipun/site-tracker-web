@@ -2,10 +2,50 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { env } from "@/env";
 
+/**
+ * A typed error class for failed API responses.
+ * TanStack Query catches any thrown Error inside a queryFn and sets isError = true.
+ * Using a class lets consumers distinguish API errors from unexpected JS errors.
+ *
+ * Usage in a Server Action (queryFn):
+ *   const res = await fetchWithAuth("/api/users");
+ *   throwIfNotOk(res);           // throws ApiError on non-2xx
+ *   const data = await res.json();
+ *   return data.data;
+ */
+export class ApiError extends Error {
+  constructor(
+    public readonly status: number,
+    message: string
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
+/**
+ * Throws an ApiError if the response status is not in the 2xx range.
+ * Must be called in Server Actions that are used as TanStack Query queryFn,
+ * so the query can transition to the isError state on failure.
+ */
+export async function throwIfNotOk(response: Response): Promise<void> {
+  if (!response.ok) {
+    let message = `Request failed with status ${response.status}`;
+    try {
+      const body = await response.clone().json();
+      if (body?.message) message = body.message;
+    } catch {
+      // Body is not JSON — use default message
+    }
+    throw new ApiError(response.status, message);
+  }
+}
+
 interface FetchOptions extends RequestInit
 {
   requireAuth?: boolean;
 }
+
 
 /**
  * A wrapper around the native `fetch` API that automatically injects the access token
